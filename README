@@ -1,0 +1,72 @@
+Overview
+--------
+EnviWrite is a SciDB UDO (User Defined Operator) for the export of SciDB arrays
+to ENVI binary files. This UDO has not been successfully implemented and needs
+to be completed.
+
+Call the UDO in SciDB: enviwrite(array, exportFilePath, interleave, byteOrder);
+
+LogicalEnviWrite.cpp - Checks UDO arguments.
+PhyicalEnviWrite.cpp - Does the heavy lifting.
+EnviWrite.hpp - Functions to write the export file.
+EnviParameters - Functions to read in the UDO arguments.
+
+
+SciDB User Defined Operators
+----------------------------
+SciDB has user defined functions and user defined operators. The user defined
+functions are functions that operate on cells in SciDB arrays. User defined
+operators are operators that operate on arrays themselves. The user guide, as of
+SciDB 13.9, does not document how to create UDOs; rather, a guide on how to
+create UDOs was requested by many SciDB users in the forum and the developers
+responded by including UDO examples in the SciDB source code. The examples are
+located in .../scidb-13.9.0.6551/examples/example_udos, for SciDB 13.9. The
+SciDB source code an be downloaded from SciDB's website. You need to create an
+account to download the source code and documentation. This UDO is based on
+the example UDOs.
+
+
+Compiling EnviWrite UDO
+-----------------------
+To compile the UDO, simply edit the Makefile so that it points to the SciDB
+source code and change the version of SciDB to the one that you are using.
+Calling 'make' will compile the source code and create 'libenviwrite.so',
+assuming you have all the dependencies necessary to do the compilation. Copy the
+'libenviwrite.so' file to the pugins folder in SciDB, load the library, and run
+the UDO. The SciDB UDO examples have a readme file that explains how to compile
+their example UDOs. This UDO was created following the steps in the example UDO
+readme file.
+
+
+script.sh
+-----------------
+This is a bash shell script created to help test the UDO. SciDB must be running
+when executing this script. The script:
+
+1. Unloads the enviwrite library file into SciDB.
+2. Stops SciDB. The library does not actually get unloaded until SciDB restarts.
+3. Recompiles the UDO
+4. Starts SciDB.
+5. Loads the recompiled UDO.
+
+
+Logical and Physical
+--------------------
+SciDB splits the logic for the UDO into 2 sparate parts, the logical part and
+the physical part. The logical part checks the input arguments and formats the
+output array depending on the input. The phyical part does all the actual work.
+See the comments in the UDO examples for explaination on how this works.
+
+
+What this code does
+-------------------
+The current enviwrite UDO can export 2-byte unsigned integers from a SciDB
+array. This UDO runs correctly for SciDB running one instance, but I have not
+figured out how to grab the array chunks from every instance, if SciDB has more
+than one instance running, and place them on the coordinator instance to export.
+To do this, you need a good understanding of how SciDB is implemented, i.e. how
+it works under the hood. I have not found the documentation, nor the comments in
+the examples and source code, to be detailed enough for me to get a
+understanding of how to do this. Hopefully for you, at the time of reading this,
+SciDB has matured enough in its documentaiton, or you are a better programmer
+than I, so that you can finish this UDO implementation. Good luck.
