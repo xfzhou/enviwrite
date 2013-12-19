@@ -21,7 +21,7 @@
 
 #The scidb-boost-devel package also needs to be installed:
 BOOST_LOCATION=/opt/scidb/13.9/include
-SCIDB_SOURCE_DIR=/home/scidb/scidb-13.9.0.6551
+SCIDB_SOURCE_DIR=/home/scidb/scidbtrunk
 
 CFLAGS=-pedantic -W -Wextra -Wall -Wno-strict-aliasing -Wno-long-long -Wno-unused-parameter -fPIC -D__STDC_FORMAT_MACROS -Wno-system-headers -isystem -O2 -g -DNDEBUG -ggdb3  -D__STDC_LIMIT_MACROS
 
